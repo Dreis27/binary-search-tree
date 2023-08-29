@@ -173,19 +173,23 @@ function inorder(root, arr=[]){
 
     return arr;
 }
-function preorder(root, functionParameter=null){
+function preorder(root, arr=[]){
     if(!root) return;
     
-    functionParameter(root.data);
+    arr.push(root.data);
     inorder(root.left, functionParameter);
     inorder(root.right, functionParameter);
+
+    return arr;
 }
-function postorder(root, functionParameter=null){
+function postorder(root, arr=[]){
     if(!root) return;
     
     inorder(root.left, functionParameter);
     inorder(root.right, functionParameter);
-    functionParameter(root.data);
+    arr.push(root.data);
+
+    return arr;
 }
 
 function height(node){
