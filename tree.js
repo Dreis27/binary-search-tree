@@ -167,9 +167,9 @@ function levelOrder(root){
 function inorder(root, arr=[]){
     if(!root) return;
     
-    inorder(root.left, functionParameter);
+    inorder(root.left, arr);
     arr.push(root.data);
-    inorder(root.right, functionParameter);
+    inorder(root.right, arr);
 
     return arr;
 }
@@ -177,16 +177,16 @@ function preorder(root, arr=[]){
     if(!root) return;
     
     arr.push(root.data);
-    inorder(root.left, functionParameter);
-    inorder(root.right, functionParameter);
+    preorder(root.left, arr);
+    preorder(root.right, arr);
 
     return arr;
 }
 function postorder(root, arr=[]){
     if(!root) return;
     
-    inorder(root.left, functionParameter);
-    inorder(root.right, functionParameter);
+    postorder(root.left, arr);
+    postorder(root.right, arr);
     arr.push(root.data);
 
     return arr;
@@ -229,5 +229,61 @@ function isBalanced(root){
 
 function rebalance(root){
     const array = inorder(root);
-    buildTree(array);
+    root = buildTree(array);
+
+    return root;
 }
+
+
+//Unassociated functions
+function generateRandomArray(length){
+    const randomArray = [];
+    for (let i = 0; i < length; i++) {
+        randomArray.push(Math.floor(Math.random() * 100));
+    }
+    return randomArray;
+}
+function printArray(label, array) {
+    console.log(`${label}: [${array.join(', ')}]`);
+}
+
+//Driver script 
+
+const randomNumbers = generateRandomArray(10);
+let tree = new Tree(randomNumbers);
+
+console.log("Is Balanced (Before Unbalancing):", isBalanced(tree.root));
+
+const inorderArray = inorder(tree.root);
+const preorderArray = preorder(tree.root);
+const postorderArray = postorder(tree.root);
+const levelorderArray = levelOrder(tree.root);
+
+printArray("In-Order", inorderArray);
+printArray("Pre-Order", preorderArray);
+printArray("Post-Order", postorderArray);
+printArray("Level-Order", levelorderArray);
+
+const unbalancedValues = generateRandomArray(100);
+for (const num of unbalancedValues) {
+    insert(tree.root, num);
+}
+
+console.log("Is Balanced (After Unbalancing):", isBalanced(tree.root));
+
+const newRoot = rebalance(tree.root);
+
+console.log("Is Balanced (After Rebalancing):", isBalanced(newRoot));
+
+
+const inorderArrayRebalanced = inorder(newRoot);
+const preorderArrayRebalanced = preorder(newRoot);
+const postorderArrayRebalanced = postorder(newRoot);
+const levelorderArrayRebalanced = levelOrder(newRoot);
+
+printArray("In-Order (Rebalanced)", inorderArrayRebalanced);
+printArray("Pre-Order (Rebalanced)", preorderArrayRebalanced);
+printArray("Post-Order (Rebalanced)", postorderArrayRebalanced);
+printArray("Level-Order (Rebalanced)", levelorderArrayRebalanced);
+
+prettyPrint(newRoot);
